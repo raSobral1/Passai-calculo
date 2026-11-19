@@ -1,0 +1,89 @@
+PASSAÍ — MODELAGEM MATEMÁTICA DA TRAVESSIA
+================================================
+
+Natureza dos dados
+------------------
+Todos os valores pertencem a um cenário didático simulado.
+
+Parâmetros
+----------
+Largura da faixa (L): 10.000 m
+Tempo de reação/início (r): 2.000 s
+Tempo-base (G): 12.000 s
+Extensão: 4.000 s
+Tempo total com extensão: 16.000 s
+Velocidade de referência: 1.000 m/s
+Taxa de chegada: λ(t) = 0.400 + 0.050t pedestres/s
+Índice de acessibilidade: A = 100.000
+Taxa de redução do impacto: k = 0.350 1/s
+Peso do impacto viário: B = 2.000
+
+Modelo de cálculo
+-----------------
+Tempo necessário: T(v) = r + L/v
+Primeira derivada: T'(v) = -L/v²
+Segunda derivada: T''(v) = 2L/v³
+Limite quando v tende a 0 pela direita: +∞
+Limite quando v tende ao infinito: r
+Chegadas acumuladas: N(t) = λ₀t + βt²/2
+Integral do tempo: ∫T(v)dv = r(b-a) + L ln(b/a)
+Custo da extensão: C(e) = A exp(-ke) + Be²
+C'(e) = -Ak exp(-ke) + 2Be
+C''(e) = Ak² exp(-ke) + 2B
+
+Interpretação
+-------------
+T'(v) é negativa, portanto velocidades maiores reduzem o tempo necessário.
+T''(v) é positiva, portanto a curva é mais sensível nas velocidades menores.
+Reduzir de 1.2 para 1.1 m/s acrescenta 0.758 s.
+Reduzir de 0.8 para 0.7 m/s acrescenta 1.786 s.
+
+Velocidades-limite
+------------------
+Com o tempo-base: 1.000000 m/s
+Com a extensão: 0.714286 m/s
+A extensão muda o resultado no intervalo 0.714286 <= v < 1.000000 m/s.
+
+Integral da taxa de chegada
+---------------------------
+Janela adicional: [0.000, 4.000] s
+Integral analítica: 2.000000 chegada(s) esperada(s)
+Integral numérica: 2.000000 chegada(s) esperada(s)
+Erro absoluto: 2.220e-16
+
+Tempo médio por integral definida
+---------------------------------
+Faixa de velocidades: [0.600, 1.250] m/s
+Integral analítica de T(v): 8.639692 s·(m/s)
+Integral numérica de T(v): 8.639692 s·(m/s)
+Erro absoluto: 4.704e-08
+Valor médio de T(v): 13.291833 s
+
+Otimização da extensão
+----------------------
+Extensão configurada: 4.000000 s
+Extensão que minimiza C(e): 3.029987 s
+Custo total no valor configurado: 56.659696
+Custo total no ponto ótimo: 52.990063
+C'(e*) = -7.810e-11
+C''(e*) = 8.241982 > 0, confirmando um mínimo.
+Os índices são didáticos e servem para demonstrar a técnica de otimização.
+
+Tabela de cenários
+------------------
+  v (m/s) |  T(v) (s) |                base |        com extensão | muda resultado
+----------------------------------------------------------------------------------
+    1.250 |    10.000 |             Conclui |             Conclui |            Não
+    1.000 |    12.000 |             Conclui |             Conclui |            Não
+    0.800 |    14.500 |  Tempo insuficiente |             Conclui |            Sim
+    0.600 |    18.667 |  Tempo insuficiente |  Tempo insuficiente |            Não
+
+Conclusão
+---------
+No cenário simulado, a extensão reduz a velocidade mínima necessária de 1.000
+para 0.714 m/s. Ela altera o resultado dentro desse intervalo.
+Velocidades menores ainda exigem mais tempo. A integral estima 2.000
+chegada(s) na janela adicional. Os resultados subsidiam a análise do protótipo.
+Na faixa de velocidades estudada, o tempo médio é 13.292 s. O modelo
+de otimização encontra 3.030 s como equilíbrio matemático entre
+acessibilidade e impacto viário, sujeito à validação posterior com dados reais.
